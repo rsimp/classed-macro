@@ -1,5 +1,5 @@
 const { createMacro, MacroError } = require('babel-plugin-macros');
-const { addNamed } = require('@babel/helper-module-imports');
+const { addDefault } = require('@babel/helper-module-imports');
 const nodePath = require('path');
 
 module.exports = createMacro(classedMacro);
@@ -15,13 +15,8 @@ function classedMacro({ references, babel, state }) {
         throw new MacroError('classed.macro does not support named imports');
     }
 
-    // Inject import {...} from 'goober'
-    Object.keys(references).forEach((refName) => {
-        const id = addNamed(program, refName, 'classed-commponents');
-        references[refName].forEach((referencePath) => {
-            referencePath.node.name = id.name;
-        });
-    });
+    // replace `classed.macro` by `classed-components`
+    addDefault(program, "classsed-components", { nameHint: references.default.node.name });
 
     const t = babel.types;
 
