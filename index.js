@@ -47,15 +47,13 @@ function classedMacro({ references, babel, state }) {
             // Add human react data attribute. The format is:
             // [FILENAME]__[COMPONENT]-[#]
             const fileName = state.file.opts.filename || 'Unknown';
-            let baseName = nodePath
-                .basename(fileName, nodePath.extname(fileName))
 
             displayName[0].insertAfter(
                 createAssignment(
                     t,
-                    t.MemberExpression(decl.id, t.identifier('data-react-component')),
+                    t.MemberExpression(decl.id, t.identifier('dataset.reactComponent')),
                     t.stringLiteral(
-                        `${baseName}__${decl.id.name}`
+                        `${fileName}__${decl.id.name}`
                     )
                 )
             );
