@@ -16,7 +16,7 @@ function classedMacro({ references, babel, state }) {
     }
 
     // replace `classed.macro` by `classed-components`
-    addDefault(program, "classsed-components", { nameHint: references.default.node.name });
+    addDefault(program, "classsed-components", { nameHint: references.default[0].node.name });
 
     const t = babel.types;
 
