@@ -50,7 +50,10 @@ function classedMacro({ references, babel, state }) {
             displayName[0].insertAfter(
                 createAssignment(
                     t,
-                    t.MemberExpression(decl.id, t.identifier('dataset.reactComponent')),
+                    t.MemberExpression(
+                        t.MemberExpression(decl.id, t.identifier('dataset')),
+                        t.identifier('reactComponent'),
+                    ),
                     t.stringLiteral(
                         `${fileName}__${decl.id.name}`
                     )
