@@ -15,22 +15,10 @@ function classedMacro({ references, babel, state }) {
         throw new MacroError('classed.macro does not support named imports');
     }
 
-    // replace `classed.macro` by `classed-components`
-    const firstRef = references.default[0];
-    const info = Object.keys(references.default[0]).reduce((acc, next) => {
-        acc += `${next}: ${firstRef[next]}\n`;
-        return acc;
-    }, "");
-    const firstRefParent = references.default[0].node;
-    const parentInfo = Object.keys(references.default[0]).reduce((acc, next) => {
-        acc += `${next}: ${firstRefParent[next]}\n`;
-        return acc;
-    }, "");
-    throw new MacroError(`firstRef: ${info}, firstRefParent: ${parentInfo}, firstRefKey: ${firstRef.key}`);
+    // replace default import (will use classed now)
     const id = addDefault(program, "classed-components", { nameHint: "classed" });
     // update references with the new identifiers
     references.default.forEach(referencePath => {
-        // eslint-disable-next-line no-param-reassign
         referencePath.node.name = id.name;
     });
 
