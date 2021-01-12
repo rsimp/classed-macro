@@ -16,7 +16,18 @@ function classedMacro({ references, babel, state }) {
     }
 
     // replace `classed.macro` by `classed-components`
-    addDefault(program, "classed-components", { nameHint: references.default[0].node.name });
+    const firstRef = references.default[0];
+    const info = Object.keys(references.default[0]).reduce((acc, next) => {
+        acc += `${next}: ${firstRef[next]}\n`;
+        return acc;
+    }, "");
+    const firstRefNode = references.default[0].node;
+    const nodeInfo = Object.keys(references.default[0]).reduce((acc, next) => {
+        acc += `${next}: ${firstRefNode[next]}\n`;
+        return acc;
+    }, "");
+    throw new MacroError(`firstRef: ${info}, firstRefNode: ${nodeInfo}`);
+    addDefault(program, "classed-components", { nameHint: "classed" });
 
     const t = babel.types;
 
