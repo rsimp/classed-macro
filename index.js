@@ -1,5 +1,6 @@
 const { createMacro, MacroError } = require('babel-plugin-macros');
 const { addNamed } = require('@babel/helper-module-imports');
+const nodePath = require('path');
 
 module.exports = createMacro(classedMacro);
 
