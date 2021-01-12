@@ -1,0 +1,20 @@
+{
+  "name": "classed.macro",
+  "version": "1.0.0",
+  "description": "Babel Plugin Macro for classed-components",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rsimp/classed-macro.git"
+  },
+  "keywords": [
+    "babel-plugin-macro"
+  ],
+  "author": "Robert Simpson <dev@rsimp.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rsimp/classed-macro/issues"
+  },
+  "homepage": "https://github.com/rsimp/classed-macro#readme"
+}
