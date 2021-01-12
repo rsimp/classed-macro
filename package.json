@@ -3,6 +3,7 @@
   "version": "0.1.5",
   "description": "Babel Plugin Macro for classed-components",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/rsimp/classed-macro/issues"
   },
-  "homepage": "https://github.com/rsimp/classed-macro#readme"
+  "homepage": "https://github.com/rsimp/classed-macro#readme",
+  "dependencies": {
+    "classed-components": "^1.0.1"
+  }
 }
