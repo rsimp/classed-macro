@@ -21,13 +21,18 @@ function classedMacro({ references, babel, state }) {
         acc += `${next}: ${firstRef[next]}\n`;
         return acc;
     }, "");
-    const firstRefNode = references.default[0].node;
-    const nodeInfo = Object.keys(references.default[0]).reduce((acc, next) => {
-        acc += `${next}: ${firstRefNode[next]}\n`;
+    const firstRefParent = references.default[0].node;
+    const parentInfo = Object.keys(references.default[0]).reduce((acc, next) => {
+        acc += `${next}: ${firstRefParent[next]}\n`;
         return acc;
     }, "");
-    throw new MacroError(`firstRef: ${info}, firstRefNode: ${nodeInfo}`);
-    addDefault(program, "classed-components", { nameHint: "classed" });
+    throw new MacroError(`firstRef: ${info}, firstRefParent: ${parentInfo}, firstRefKey: ${firstRef.key}`);
+    const id = addDefault(program, "classed-components", { nameHint: "classed" });
+    // update references with the new identifiers
+    references.default.forEach(referencePath => {
+        // eslint-disable-next-line no-param-reassign
+        referencePath.node.name = id.name;
+    });
 
     const t = babel.types;
 
