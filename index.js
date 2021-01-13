@@ -47,19 +47,30 @@ function classedMacro({ references, babel, state }) {
             // [FILENAME]__[COMPONENT]-[#]
             const fileName = state.file.opts.filename || 'UnknownFile';
 
-            // displayName[0].insertAfter(
-            //     createAssignment(
-            //         t,
-            //         t.MemberExpression(
-            //             t.MemberExpression(decl.id, t.identifier('defaultProps')),
-            //             t.stringLiteral('data-react-component'),
-            //             true
-            //         ),
-            //         t.stringLiteral(
-            //             `${fileName}__${decl.id.name}`
-            //         )
-            //     )
-            // );
+            const propTypes = displayName[0].insertAfter(
+                createAssignment(
+                    t,
+                    t.MemberExpression(
+                        decl.id,
+                        t.identifier('defaultProps')
+                    ),
+                    t.objectExpression([])
+                )
+            );
+            
+            propTypes[0].insertAfter(
+                createAssignment(
+                    t,
+                    t.MemberExpression(
+                        t.MemberExpression(decl.id, t.identifier('defaultProps')),
+                        t.stringLiteral('data-react-component'),
+                        true
+                    ),
+                    t.stringLiteral(
+                        `${fileName}__${decl.id.name}`
+                    )
+                )
+            );
         }
     });
 }
