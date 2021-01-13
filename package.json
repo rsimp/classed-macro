@@ -12,7 +12,15 @@
     "url": "https://github.com/rsimp/classed-macro.git"
   },
   "keywords": [
-    "babel-plugin-macro"
+    "babel-plugin-macro",
+    "classed-components",
+    "babel",
+    "macro",
+    "react",
+    "components",
+    "styled",
+    "tailwind",
+    "tachyons"
   ],
   "author": "Robert Simpson <dev@rsimp.io>",
   "license": "ISC",
