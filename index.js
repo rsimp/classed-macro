@@ -44,8 +44,12 @@ function classedMacro({ references, babel, state }) {
             );
 
             // Add human react data attribute. The format is:
-            // [FILENAME]__[COMPONENT]-[#]
+            // [MODULENAME]__[COMPONENT]-[#]
             const fileName = state.file.opts.filename || 'UnknownFile';
+            const parsedFile = nodePath.parse(fileName);
+            const moduleName = parsedFile.name.toLowerCase() !== "index"
+                ? parsedFile.name
+                : nodePath.basename(parsedFile.dir);
 
             const propTypes = displayName[0].insertAfter(
                 createAssignment(
@@ -67,7 +71,7 @@ function classedMacro({ references, babel, state }) {
                         true
                     ),
                     t.stringLiteral(
-                        `${fileName}__${decl.id.name}`
+                        `${moduleName}__${decl.id.name}`
                     )
                 )
             );
