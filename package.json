@@ -2,9 +2,10 @@
   "name": "classed.macro",
   "version": "0.1.16",
   "description": "Babel Plugin Macro for classed-components",
-  "main": "index.js",
+  "main": "macro.js",
   "types": "types/index.d.ts",
   "scripts": {
+    "test": "jest --updateSnapshot",
     "copytypes": "rm -rf types && mkdir types && cp node_modules/classed-components/dist/*.d.ts types"
   },
   "repository": {
@@ -12,15 +13,19 @@
     "url": "https://github.com/rsimp/classed-macro.git"
   },
   "keywords": [
-    "babel-plugin-macro",
     "classed-components",
-    "babel",
+    "babel-plugin-macros",
     "macro",
     "react",
+    "classed",
+    "class",
     "components",
     "styled",
+    "styled-components",
     "tailwind",
-    "tachyons"
+    "tailwindcss",
+    "tachyons",
+    "twin.macro"
   ],
   "author": "Robert Simpson <dev@rsimp.io>",
   "license": "ISC",
@@ -31,5 +36,10 @@
   "peerDependencies": {
     "classed-components": "^1.0.1",
     "react": "*"
+  },
+  "dependencies": {
+    "babel-plugin-macros": "^3.0.1",
+    "babel-plugin-tester": "^10.0.0",
+    "jest": "^26.6.3"
   }
 }

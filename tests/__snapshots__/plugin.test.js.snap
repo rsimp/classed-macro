@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`classed.macro 1. classed.macro: 1. classed.macro 1`] = `
+
+import tag from '../macro.js'
+
+const topFoo = tag.div\`foo foo\`;
+
+const topBar = tag.div\`bar bar\`;
+
+topFoo.defaultProps = {
+  someProp: true
+};
+
+function makeFoo() {
+  const foo = tag.div\`foo foo\`;
+  return foo;
+}
+
+function makeBar() {
+  const bar = tag.div\`bar bar\`;
+  const otherStatement = 42;
+  bar.defaultProps = {
+    someProp: true
+  };
+  return bar;
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _classed from "classed-components";
+const topFoo = _classed.div\`foo foo\`;
+topFoo.displayName = "topFoo";
+const topBar = _classed.div\`bar bar\`;
+topBar.displayName = "topBar";
+topBar.defaultProps = {
+  "data-react-component": "plugin.test__topBar",
+};
+topFoo.defaultProps = {
+  someProp: true,
+  "data-react-component": "plugin.test__topFoo",
+};
+
+function makeFoo() {
+  const foo = _classed.div\`foo foo\`;
+  foo.displayName = "foo";
+  foo.defaultProps = {
+    "data-react-component": "plugin.test__foo",
+  };
+  return foo;
+}
+
+function makeBar() {
+  const bar = _classed.div\`bar bar\`;
+  bar.displayName = "bar";
+  const otherStatement = 42;
+  bar.defaultProps = {
+    someProp: true,
+    "data-react-component": "plugin.test__bar",
+  };
+  return bar;
+}
+
+
+`;
