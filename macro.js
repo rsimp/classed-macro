@@ -35,8 +35,9 @@ function classedMacro({ references, babel, state, config }) {
 
     // replace default import with classed-components
     const id = addDefault(program, "classed-components", { nameHint: "classed" });
+
     references.default.forEach((referencePath) => {
-        // update references with the new identifiers (addDefault always makes new default names)
+        // update reference with the new identifier (addDefault renames default _classed)
         referencePath.node.name = id.name;
 
         const variable = referencePath.findParent((path) => path.isVariableDeclaration());
@@ -44,6 +45,10 @@ function classedMacro({ references, babel, state, config }) {
             return;
         }
         const decl = variable.node.declarations[0];
+
+        if (variable.parentPath.type !== "Program") {
+            throw new MacroError('classed.macro only supports top level module declarations');
+        }
 
         if (t.isIdentifier(decl.id)) {
             // Add displayName to components for easier debugging
@@ -79,7 +84,7 @@ function classedMacro({ references, babel, state, config }) {
                 ? parsedFile.name
                 : nodePath.basename(parsedFile.dir);
             
-            defaultPropsAssignment.insertAfter(
+            program.node.body.push(
                 createAssignment(
                     t,
                     t.MemberExpression(

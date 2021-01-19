@@ -8,30 +8,21 @@ pluginTester({
   babelOptions: {filename: __filename},
   tests: [
     `
-    import tag from '../macro.js'
+    import classed from '../macro.js'
 
-    const topFoo = tag.div\`foo foo\`;
+    const InterleavedProps = classed.div\`foo bar\`;
 
-    const topBar = tag.div\`bar bar\`;
+    const NoDefaultProps = classed.div("foo bar");
 
-    topFoo.defaultProps = {
+    const ObjectProps = classed.div(["foo", "bar"]);
+    ObjectProps.defaultProps = new Object();
+
+    const UtilityProps = classed.div(({ hasError }) => ({ 'text-danger': hasError }));
+    UtilityProps.defaultProps = someFunc();
+
+    InterleavedProps.defaultProps = {
       someProp: true
     };
-
-    function makeFoo() {
-      const foo = tag.div\`foo foo\`;
-      return foo;
-    }
-
-    function makeBar() {
-      const bar = tag.div\`bar bar\`;
-      const otherStatement = 42;
-      const defaultProps = {
-        someProp: true
-      };
-      bar.defaultProps = defaultProps;
-      return bar;
-    }
     `,
   ],
 });
