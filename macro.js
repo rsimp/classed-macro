@@ -24,25 +24,21 @@ function findDefaultPropsAssignment(nodePaths, componentName) {
     return null;
 }
 
-function classedMacro({ references, babel, state }) {
+function classedMacro({ references, babel, state, config }) {
     const program = state.file.path;
 
     if (!references.default) {
         throw new MacroError('classed.macro does not support named imports');
     }
 
-    // replace default import (will use classed now)
-    const id = addDefault(program, "classed-components", { nameHint: "classed" });
-    // update references with the new identifiers (addDefault always makes new default names)
-    references.default.forEach(referencePath => {
-        referencePath.node.name = id.name;
-    });
-
     const t = babel.types;
 
-    const styledReferences = references.default || [];
+    // replace default import with classed-components
+    const id = addDefault(program, "classed-components", { nameHint: "classed" });
+    references.default.forEach((referencePath) => {
+        // update references with the new identifiers (addDefault always makes new default names)
+        referencePath.node.name = id.name;
 
-    styledReferences.forEach((referencePath) => {
         const variable = referencePath.findParent((path) => path.isVariableDeclaration());
         if (!variable || variable.node.declarations.length !== 1) {
             return;

@@ -4,7 +4,7 @@
 # classed.macro
 A `babel-plugin-macros` for `classed-components`
 
-This macro adds a display name to your `classed-components` and a `data-react-component` attribute to the rendered HTML to enable a better debugging experience
+This macro adds a display name to components created with `classed-components` and a `data-react-component` attribute to the rendered HTML to enable a better debugging experience
 
 ## Installation
 1. First make sure `classed-components` is installed:
@@ -30,14 +30,14 @@ The macro uses the variable name as your component's display name. This creates 
 
 For example the following component:
 ``` js
-const IconContainer = classed.div`flex flex-row ml-auto`;
+const YourComponent = classed.div`flex flex-row ml-auto`;
 ```
-Will now have a display name of `IconContainer` and will show as `<IconContainer>` in react dev tools and in your jest snapshots
+Will now have a display name of `YourComponent` and will show as `<YourComponent>` in react dev tools and in your jest snapshots
 
 ## HTML Data Attribute
-The macro will also add a `data-react-component` attribute to your dom node. If the previous `IconContainer` component is defined inside a module called `screen.(jsx|tsx)` or `screen/index.(jsx|tsx)` it will render the following HTML:
+The macro will also add a `data-react-component` attribute to your dom node. If the previous `YourComponent` component is defined inside a module called `your-module.(jsx|tsx)` or `your-module/index.(jsx|tsx)` it will render the following HTML:
 ``` html
-<div data-react-component="screen__IconContainer" class="flex flex-row ml-auto">
+<div data-react-component="your-module__YourComponent" class="flex flex-row ml-auto">
 ...
 </div>
 ```
