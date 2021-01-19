@@ -20,9 +20,10 @@ function makeFoo() {
 function makeBar() {
   const bar = tag.div\`bar bar\`;
   const otherStatement = 42;
-  bar.defaultProps = {
+  const defaultProps = {
     someProp: true
   };
+  bar.defaultProps = defaultProps;
   return bar;
 }
 
@@ -33,20 +34,18 @@ const topFoo = _classed.div\`foo foo\`;
 topFoo.displayName = "topFoo";
 const topBar = _classed.div\`bar bar\`;
 topBar.displayName = "topBar";
-topBar.defaultProps = {
-  "data-react-component": "plugin.test__topBar",
-};
+topBar.defaultProps = {};
+topBar.defaultProps["data-react-component"] = "plugin.test__topBar";
 topFoo.defaultProps = {
   someProp: true,
-  "data-react-component": "plugin.test__topFoo",
 };
+topFoo.defaultProps["data-react-component"] = "plugin.test__topFoo";
 
 function makeFoo() {
   const foo = _classed.div\`foo foo\`;
   foo.displayName = "foo";
-  foo.defaultProps = {
-    "data-react-component": "plugin.test__foo",
-  };
+  foo.defaultProps = {};
+  foo.defaultProps["data-react-component"] = "plugin.test__foo";
   return foo;
 }
 
@@ -54,10 +53,11 @@ function makeBar() {
   const bar = _classed.div\`bar bar\`;
   bar.displayName = "bar";
   const otherStatement = 42;
-  bar.defaultProps = {
+  const defaultProps = {
     someProp: true,
-    "data-react-component": "plugin.test__bar",
   };
+  bar.defaultProps = defaultProps;
+  bar.defaultProps["data-react-component"] = "plugin.test__bar";
   return bar;
 }
 

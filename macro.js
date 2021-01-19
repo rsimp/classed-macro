@@ -8,7 +8,7 @@ function createAssignment(t, left, right, operator = "=") {
     return t.expressionStatement(t.assignmentExpression(operator, left, right));
 }
 
-function findDefaultPropsObject(nodePaths, componentName) {
+function findDefaultPropsAssignment(nodePaths, componentName) {
     for (let nodePath of nodePaths) {
         if (nodePath.type !== "ExpressionStatement"
             || nodePath.node.expression.type !== "AssignmentExpression"){
@@ -18,7 +18,7 @@ function findDefaultPropsObject(nodePaths, componentName) {
         if (leftExpression.type !== "MemberExpression") continue;
         if (leftExpression.object.name === componentName 
             && leftExpression.property.name === "defaultProps") {
-            return nodePath.node.expression.right;
+            return nodePath;
         }
     }
     return null;
@@ -33,7 +33,7 @@ function classedMacro({ references, babel, state }) {
 
     // replace default import (will use classed now)
     const id = addDefault(program, "classed-components", { nameHint: "classed" });
-    // update references with the new identifiers (addDefault always renames default import)
+    // update references with the new identifiers (addDefault always makes new default names)
     references.default.forEach(referencePath => {
         referencePath.node.name = id.name;
     });
@@ -60,10 +60,9 @@ function classedMacro({ references, babel, state }) {
             );
 
             const siblings = displayNameAssignment[0].getAllNextSiblings()
-            let defaultPropsObject = findDefaultPropsObject(siblings, decl.id.name);
-            if (!defaultPropsObject) {
+            let defaultPropsAssignment = findDefaultPropsAssignment(siblings, decl.id.name);
+            if (!defaultPropsAssignment) {
                 // Add default props if not found
-                defaultPropsObject = t.objectExpression([]);
                 defaultPropsAssignment = displayNameAssignment[0].insertAfter(
                     createAssignment(
                         t,
@@ -71,7 +70,7 @@ function classedMacro({ references, babel, state }) {
                             decl.id,
                             t.identifier('defaultProps')
                         ),
-                        defaultPropsObject,
+                        t.objectExpression([]),
                     )
                 )[0];
             }
@@ -84,9 +83,14 @@ function classedMacro({ references, babel, state }) {
                 ? parsedFile.name
                 : nodePath.basename(parsedFile.dir);
             
-            defaultPropsObject.properties.push(
-                t.objectProperty(
-                    t.stringLiteral('data-react-component'),
+            defaultPropsAssignment.insertAfter(
+                createAssignment(
+                    t,
+                    t.MemberExpression(
+                        t.MemberExpression(decl.id, t.identifier('defaultProps')),
+                        t.stringLiteral('data-react-component'),
+                        true
+                    ),
                     t.stringLiteral(
                         `${moduleName}__${decl.id.name}`
                     )

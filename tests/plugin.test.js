@@ -26,9 +26,10 @@ pluginTester({
     function makeBar() {
       const bar = tag.div\`bar bar\`;
       const otherStatement = 42;
-      bar.defaultProps = {
+      const defaultProps = {
         someProp: true
       };
+      bar.defaultProps = defaultProps;
       return bar;
     }
     `,
