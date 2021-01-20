@@ -1,8 +1,144 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`classed.macro 1. classed.macro: 1. classed.macro 1`] = `
+exports[`classed.macro Disable debugAttribte configuraion: Disable debugAttribte configuraion 1`] = `
 
-import classed from '../macro.js'
+import classed from '../../macro.js'
+
+const InterleavedProps = classed.div\`foo bar\`;
+
+const NoDefaultProps = classed.div("foo bar");
+
+const ObjectProps = classed.div(["foo", "bar"]);
+ObjectProps.defaultProps = new Object();
+
+const UtilityProps = classed.div(({ hasError }) => ({ 'text-danger': hasError }));
+UtilityProps.defaultProps = someFunc();
+
+InterleavedProps.defaultProps = {
+  someProp: true
+};
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _classed from "classed-components";
+const InterleavedProps = _classed.div\`foo bar\`;
+InterleavedProps.displayName = "InterleavedProps";
+
+const NoDefaultProps = _classed.div("foo bar");
+
+NoDefaultProps.displayName = "NoDefaultProps";
+
+const ObjectProps = _classed.div(["foo", "bar"]);
+
+ObjectProps.displayName = "ObjectProps";
+ObjectProps.defaultProps = new Object();
+
+const UtilityProps = _classed.div(({ hasError }) => ({
+  "text-danger": hasError,
+}));
+
+UtilityProps.displayName = "UtilityProps";
+UtilityProps.defaultProps = someFunc();
+InterleavedProps.defaultProps = {
+  someProp: true,
+};
+
+
+`;
+
+exports[`classed.macro Disable displayName and debugAttribute configuration: Disable displayName and debugAttribute configuration 1`] = `
+
+import classed from '../../macro.js'
+
+const InterleavedProps = classed.div\`foo bar\`;
+
+const NoDefaultProps = classed.div("foo bar");
+
+const ObjectProps = classed.div(["foo", "bar"]);
+ObjectProps.defaultProps = new Object();
+
+const UtilityProps = classed.div(({ hasError }) => ({ 'text-danger': hasError }));
+UtilityProps.defaultProps = someFunc();
+
+InterleavedProps.defaultProps = {
+  someProp: true
+};
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _classed from "classed-components";
+const InterleavedProps = _classed.div\`foo bar\`;
+
+const NoDefaultProps = _classed.div("foo bar");
+
+const ObjectProps = _classed.div(["foo", "bar"]);
+
+ObjectProps.defaultProps = new Object();
+
+const UtilityProps = _classed.div(({ hasError }) => ({
+  "text-danger": hasError,
+}));
+
+UtilityProps.defaultProps = someFunc();
+InterleavedProps.defaultProps = {
+  someProp: true,
+};
+
+
+`;
+
+exports[`classed.macro Disable displayName configuration: Disable displayName configuration 1`] = `
+
+import classed from '../../macro.js'
+
+const InterleavedProps = classed.div\`foo bar\`;
+
+const NoDefaultProps = classed.div("foo bar");
+
+const ObjectProps = classed.div(["foo", "bar"]);
+ObjectProps.defaultProps = new Object();
+
+const UtilityProps = classed.div(({ hasError }) => ({ 'text-danger': hasError }));
+UtilityProps.defaultProps = someFunc();
+
+InterleavedProps.defaultProps = {
+  someProp: true
+};
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _classed from "classed-components";
+const InterleavedProps = _classed.div\`foo bar\`;
+
+const NoDefaultProps = _classed.div("foo bar");
+
+NoDefaultProps.defaultProps = {};
+
+const ObjectProps = _classed.div(["foo", "bar"]);
+
+ObjectProps.defaultProps = new Object();
+
+const UtilityProps = _classed.div(({ hasError }) => ({
+  "text-danger": hasError,
+}));
+
+UtilityProps.defaultProps = someFunc();
+InterleavedProps.defaultProps = {
+  someProp: true,
+};
+InterleavedProps.defaultProps["data-react-component"] =
+  "test-code__InterleavedProps";
+NoDefaultProps.defaultProps["data-react-component"] =
+  "test-code__NoDefaultProps";
+ObjectProps.defaultProps["data-react-component"] = "test-code__ObjectProps";
+UtilityProps.defaultProps["data-react-component"] = "test-code__UtilityProps";
+
+
+`;
+
+exports[`classed.macro No plugin configuration: No plugin configuration 1`] = `
+
+import classed from '../../macro.js'
 
 const InterleavedProps = classed.div\`foo bar\`;
 
@@ -44,11 +180,11 @@ InterleavedProps.defaultProps = {
   someProp: true,
 };
 InterleavedProps.defaultProps["data-react-component"] =
-  "plugin.test__InterleavedProps";
+  "test-code__InterleavedProps";
 NoDefaultProps.defaultProps["data-react-component"] =
-  "plugin.test__NoDefaultProps";
-ObjectProps.defaultProps["data-react-component"] = "plugin.test__ObjectProps";
-UtilityProps.defaultProps["data-react-component"] = "plugin.test__UtilityProps";
+  "test-code__NoDefaultProps";
+ObjectProps.defaultProps["data-react-component"] = "test-code__ObjectProps";
+UtilityProps.defaultProps["data-react-component"] = "test-code__UtilityProps";
 
 
 `;

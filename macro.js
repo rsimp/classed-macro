@@ -2,7 +2,7 @@ const { createMacro, MacroError } = require('babel-plugin-macros');
 const { addDefault } = require('@babel/helper-module-imports');
 const nodePath = require('path');
 
-module.exports = createMacro(classedMacro);
+module.exports = createMacro(classedMacro, { configName: "classed" });
 
 function createAssignment(t, left, right, operator = "=") {
     return t.expressionStatement(t.assignmentExpression(operator, left, right));
@@ -25,19 +25,18 @@ function findDefaultPropsAssignment(nodePaths, componentName) {
 }
 
 function classedMacro({ references, babel, state, config }) {
-    const program = state.file.path;
-
     if (!references.default) {
         throw new MacroError('classed.macro does not support named imports');
     }
 
+    const program = state.file.path;
     const t = babel.types;
 
-    // replace default import with classed-components
+    // replace macro import with classed-components
     const id = addDefault(program, "classed-components", { nameHint: "classed" });
 
     references.default.forEach((referencePath) => {
-        // update reference with the new identifier (addDefault renames default _classed)
+        // update reference with the new default import name (_classed)
         referencePath.node.name = id.name;
 
         const variable = referencePath.findParent((path) => path.isVariableDeclaration());
@@ -51,52 +50,57 @@ function classedMacro({ references, babel, state, config }) {
         }
 
         if (t.isIdentifier(decl.id)) {
-            // Add displayName to components for easier debugging
-            const displayNameAssignment = variable.insertAfter(
-                createAssignment(
-                    t,
-                    t.MemberExpression(decl.id, t.identifier('displayName')),
-                    t.stringLiteral(decl.id.name)
-                )
-            );
-
-            const siblings = displayNameAssignment[0].getAllNextSiblings()
-            let defaultPropsAssignment = findDefaultPropsAssignment(siblings, decl.id.name);
-            if (!defaultPropsAssignment) {
-                // Add default props if not found
-                defaultPropsAssignment = displayNameAssignment[0].insertAfter(
+            let currentLine = variable;
+            if (!config || config.displayName === undefined || config.displayName === true) {
+                 // Add displayName to components for easier debugging
+                currentLine = currentLine.insertAfter(
                     createAssignment(
                         t,
-                        t.MemberExpression(
-                            decl.id,
-                            t.identifier('defaultProps')
-                        ),
-                        t.objectExpression([]),
+                        t.MemberExpression(decl.id, t.identifier('displayName')),
+                        t.stringLiteral(decl.id.name)
                     )
                 )[0];
             }
 
-            // Add human react data attribute. The format is:
-            // [MODULENAME]__[COMPONENT]-[#]
-            const fileName = state.file.opts.filename || 'UnknownModule';
-            const parsedFile = nodePath.parse(fileName);
-            const moduleName = parsedFile.name.toLowerCase() !== "index"
-                ? parsedFile.name
-                : nodePath.basename(parsedFile.dir);
-            
-            program.node.body.push(
-                createAssignment(
-                    t,
-                    t.MemberExpression(
-                        t.MemberExpression(decl.id, t.identifier('defaultProps')),
-                        t.stringLiteral('data-react-component'),
-                        true
-                    ),
-                    t.stringLiteral(
-                        `${moduleName}__${decl.id.name}`
+            if (!config || config.dataAttribute === undefined || config.dataAttribute === true) {
+                const siblings = currentLine.getAllNextSiblings()
+                let defaultPropsAssignment = findDefaultPropsAssignment(siblings, decl.id.name);
+                if (!defaultPropsAssignment) {
+                    // Add empty default props object if assignmet not found
+                    currentLine.insertAfter(
+                        createAssignment(
+                            t,
+                            t.MemberExpression(
+                                decl.id,
+                                t.identifier('defaultProps')
+                            ),
+                            t.objectExpression([]),
+                        )
+                    );
+                }
+
+                // Add html react data attribute. The format is:
+                // [module-name]__[ComponentName]
+                const fileName = state.file.opts.filename || 'UnknownModule';
+                const parsedFile = nodePath.parse(fileName);
+                const moduleName = parsedFile.name.toLowerCase() !== "index"
+                    ? parsedFile.name
+                    : nodePath.basename(parsedFile.dir);
+                
+                program.node.body.push(
+                    createAssignment(
+                        t,
+                        t.MemberExpression(
+                            t.MemberExpression(decl.id, t.identifier('defaultProps')),
+                            t.stringLiteral('data-react-component'),
+                            true
+                        ),
+                        t.stringLiteral(
+                            `${moduleName}__${decl.id.name}`
+                        )
                     )
-                )
-            );
+                );
+            }
         }
     });
 }

@@ -5,24 +5,41 @@ pluginTester({
   plugin,
   pluginName: "classed.macro",
   snapshot: true,
+  filename: __filename,
   babelOptions: {filename: __filename},
   tests: [
-    `
-    import classed from '../macro.js'
-
-    const InterleavedProps = classed.div\`foo bar\`;
-
-    const NoDefaultProps = classed.div("foo bar");
-
-    const ObjectProps = classed.div(["foo", "bar"]);
-    ObjectProps.defaultProps = new Object();
-
-    const UtilityProps = classed.div(({ hasError }) => ({ 'text-danger': hasError }));
-    UtilityProps.defaultProps = someFunc();
-
-    InterleavedProps.defaultProps = {
-      someProp: true
-    };
-    `,
+    {
+      title: "No plugin configuration",
+      fixture: '__fixtures__/test-code.js',
+    },
+    {
+      title: "Disable displayName configuration",
+      fixture: '__fixtures__/test-code.js',
+      pluginOptions: {
+        classed: {
+          displayName: false,
+        },
+      },
+    },
+    {
+      title: "Disable dataAttribute configuraion",
+      fixture: '__fixtures__/test-code.js',
+      pluginOptions: {
+        classed: {
+          dataAttribute: false,
+        },
+      },
+    },
+    {
+      // Will cause the macro to do nothing, included for completeness
+      title: "Disable displayName and dataAttribute configuration",
+      fixture: '__fixtures__/test-code.js',
+      pluginOptions: {
+        classed: {
+          dataAttribute: false,
+          displayName: false,
+        },
+      },
+    },
   ],
 });

@@ -41,3 +41,34 @@ The macro will also add a `data-react-component` attribute to your dom node. If 
 ...
 </div>
 ```
+
+## Configuration
+
+### Options
+
+| Name          | Default | Description
+| --------------| ------- | ---------------------------------------------------------------------------- |
+| displayName   | `true`  | Enables generation of the component displayName                              |
+| dataAttribute | `true`  | Enables adding a data-react-component attribute to the component DOM element |
+
+### Config Files
+
+You can override the above options by adding a `classed` section to any of the following files:
+* .babel-plugin-macrosrc
+* .babel-plugin-macrosrc.json
+* .babel-plugin-macrosrc.yaml
+* .babel-plugin-macrosrc.yml
+* .babel-plugin-macrosrc.js
+* babel-plugin-macros.config.js
+* `babelMacros` in package.json
+
+### Environment specific configuration
+You can set environment specific configuration to any js based configuration file:
+``` js
+// .babel-plugin-macrosrc.js
+module.exports = {
+  classed: {
+    dataAttribute: process.env.NODE_ENV !== 'production'
+  }
+}
+```
