@@ -1,4 +1,5 @@
 [![Babel Macro](https://img.shields.io/badge/babel--macro-%F0%9F%8E%A3-f5da55.svg?style=flat-square)](https://github.com/kentcdodds/babel-plugin-macros)
+[![npm version](https://badge.fury.io/js/classed.macro.svg)](https://badge.fury.io/js/classed.macro)
 
 
 # classed.macro
@@ -63,7 +64,7 @@ You can override the above options by adding a `classed` section to any of the f
 * `babelMacros` in package.json
 
 ### Environment specific configuration
-You can set environment specific configuration to any js based configuration file:
+You can set environment specific configuration in any js based configuration file:
 ``` js
 // .babel-plugin-macrosrc.js
 module.exports = {
