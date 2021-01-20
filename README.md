@@ -76,5 +76,5 @@ module.exports = {
 
 ## Synchronization with classed-components
 * Types are simply copied over from classed-components to keep them in sync
-* Major and minor version are set to match class-component releases
+* Major and minor version are set to match classed-components releases
   * Patch versions are specific to the macro
