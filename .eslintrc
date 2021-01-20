@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "node": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "ignorePatterns": ["**/__fixtures__/*.js"],
+}
