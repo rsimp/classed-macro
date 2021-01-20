@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`classed.macro Disable debugAttribte configuraion: Disable debugAttribte configuraion 1`] = `
+exports[`classed.macro Disable dataAttribute configuraion: Disable dataAttribute configuraion 1`] = `
 
 import classed from '../../macro.js'
 
@@ -46,7 +46,7 @@ InterleavedProps.defaultProps = {
 
 `;
 
-exports[`classed.macro Disable displayName and debugAttribute configuration: Disable displayName and debugAttribute configuration 1`] = `
+exports[`classed.macro Disable displayName and dataAttribute configuration: Disable displayName and dataAttribute configuration 1`] = `
 
 import classed from '../../macro.js'
 
