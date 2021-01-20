@@ -1,5 +1,5 @@
 [![Babel Macro](https://img.shields.io/badge/babel--macro-%F0%9F%8E%A3-f5da55.svg?style=flat-square)](https://github.com/kentcdodds/babel-plugin-macros)
-[![npm version](https://badge.fury.io/js/classed.macro.svg)](https://badge.fury.io/js/classed.macro)
+![npm](https://img.shields.io/npm/v/classed.macro)
 
 
 # classed.macro
