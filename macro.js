@@ -51,14 +51,12 @@ function classedMacro({ references, babel, state, config }) {
     }
     const decl = variable.node.declarations[0];
 
-    if (variable.parentPath.type !== "Program") {
-      throw new MacroError(
-        "classed.macro only supports top level module declarations"
-      );
+    let currentLine = variable;
+    if (currentLine.parentPath.type === "ExportNamedDeclaration") {
+      currentLine = currentLine.parentPath;
     }
 
     if (t.isIdentifier(decl.id)) {
-      let currentLine = variable;
       if (
         !config ||
         config.displayName === undefined ||
@@ -75,9 +73,10 @@ function classedMacro({ references, babel, state, config }) {
       }
 
       if (
-        !config ||
-        config.dataAttribute === undefined ||
-        config.dataAttribute === true
+        (!config ||
+          config.dataAttribute === undefined ||
+          config.dataAttribute === true) &&
+        currentLine.parentPath.type === "Program"
       ) {
         const siblings = currentLine.getAllNextSiblings();
         let defaultPropsAssignment = findDefaultPropsAssignment(
