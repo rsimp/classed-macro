@@ -1,6 +1,6 @@
 {
   "name": "classed.macro",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Babel Plugin Macro for classed-components",
   "main": "macro.js",
   "types": "types/index.d.ts",
